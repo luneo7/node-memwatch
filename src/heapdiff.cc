@@ -43,7 +43,7 @@ heapdiff::HeapDiff::~HeapDiff()
 }
 
 void
-heapdiff::HeapDiff::Initialize ( v8::Handle<v8::Object> target )
+heapdiff::HeapDiff::Initialize ( v8::Local<v8::Object> target )
 {
     Nan::HandleScope scope;
 
@@ -53,7 +53,10 @@ heapdiff::HeapDiff::Initialize ( v8::Handle<v8::Object> target )
 
     Nan::SetPrototypeMethod(t, "end", End);
 
-    target->Set(Nan::New<v8::String>("HeapDiff").ToLocalChecked(), t->GetFunction());
+    target->Set(
+        Nan::New<v8::String>("HeapDiff").ToLocalChecked(),
+        t->GetFunction(Nan::GetCurrentContext()).ToLocalChecked()
+    );
 }
 
 NAN_METHOD(heapdiff::HeapDiff::New)
@@ -92,9 +95,7 @@ NAN_METHOD(heapdiff::HeapDiff::New)
 
 static string handleToStr(const Local<Value> & str)
 {
-    v8::Isolate* isolate = v8::Isolate::GetCurrent();
-
-	String::Utf8Value utfString(isolate, str->ToString());
+    String::Utf8Value utfString(v8::Isolate::GetCurrent(), str);
 
 	return *utfString;
 }
@@ -223,7 +224,7 @@ static void manageChange(changeset & changes, const HeapGraphNode * node, bool a
     return;
 }
 
-static Handle<Value> changesetToObject(changeset & changes)
+static Local<Value> changesetToObject(changeset & changes)
 {
     Nan::EscapableHandleScope scope;
     Local<Array> a = Nan::New<v8::Array>();

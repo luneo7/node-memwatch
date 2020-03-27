@@ -17,11 +17,11 @@ Node.JS code.  It provides:
 Installation
 ------------
 
-- `npm install node-memwatch`
+- `npm install @luneo7/node-memwatch`
 
 or
 
-- `git clone https://github.com/eduardbcom/node-memwatch.git`
+- `git clone https://github.com/luneo7/node-memwatch.git`
 
 
 Description
@@ -32,10 +32,10 @@ usage in Node.JS applications, but there is still a need for a
 platform-independent native module that requires no special
 instrumentation.  This module attempts to satisfy that need.
 
-To get started, import `node-memwatch` like so:
+To get started, import `@luneo7/node-memwatch` like so:
 
 ```javascript
-var memwatch = require('node-memwatch');
+var memwatch = require('@luneo7/node-memwatch');
 ```
 
 ### Leak Detection
